@@ -1,0 +1,180 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;* -----------------------------------------------------
+                       -------------
+    2 00000000         ;* --  _____       ______  _____                        
+                                   -
+    3 00000000         ;* -- |_   _|     |  ____|/ ____|                       
+                                   -
+    4 00000000         ;* --   | |  _ __ | |__  | (___    Institute of Embedded
+                        Systems    -
+    5 00000000         ;* --   | | | '_ \|  __|  \___ \   Zurich University of 
+                                   -
+    6 00000000         ;* --  _| |_| | | | |____ ____) |  Applied Sciences     
+                                   -
+    7 00000000         ;* -- |_____|_| |_|______|_____/   8401 Winterthur, Swit
+                       zerland     -
+    8 00000000         ;* -----------------------------------------------------
+                       -------------
+    9 00000000         ;* --
+   10 00000000         ;* -- Project     : CT Board - Cortex M4
+   11 00000000         ;* -- Description : Data Segment initialisation.
+   12 00000000         ;* -- 
+   13 00000000         ;* -- $Id$
+   14 00000000         ;* -----------------------------------------------------
+                       -------------
+   15 00000000         
+   16 00000000         
+   17 00000000         ; ------------------------------------------------------
+                       -------------
+   18 00000000         ; -- __Main
+   19 00000000         ; ------------------------------------------------------
+                       ------------- 
+   20 00000000         
+   21 00000000                 AREA             |.text|, CODE, READONLY
+   22 00000000         
+   23 00000000                 IMPORT           main
+   24 00000000                 IMPORT           __scatterload
+   25 00000000                 EXPORT           __main
+   26 00000000         
+   27 00000000         __main  PROC
+   28 00000000         
+   29 00000000         ; initialize RW, ZI, C++ static init
+   30 00000000 F7FF FFFE       BL               __scatterload
+   31 00000004         ; call user main function
+   32 00000004 4804            LDR              R0, =main
+   33 00000006 4700            BX               R0
+   34 00000008                 ENDP
+   35 00000008         
+   36 00000008         ; __user_setup_stackheap is required by __scatterload
+   37 00000008         ; we do not provide any heap: no C malloc nor C++ new us
+                       able
+   38 00000008                 IMPORT           Stack_Size  [WEAK]
+   39 00000008                 IMPORT           Stack_Mem   [WEAK]
+   40 00000008                 EXPORT           __user_setup_stackheap
+   41 00000008         __user_setup_stackheap
+                               PROC
+   42 00000008         ; fingerprint stack section
+   43 00000008 4804            LDR              R0, =Stack_Mem
+   44 0000000A 4905            LDR              R1, =Stack_Size
+   45 0000000C 4A05            LDR              R2, =0xEFBEADDE ; stack fingerp
+                                                            rint (little endian
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            !)
+   46 0000000E 6002    LoopStack
+                               STR              R2, [R0]
+   47 00000010 1D00            ADDS             R0, R0, #4
+   48 00000012 3904            SUBS             R1, #4
+   49 00000014 D1FB            BNE              LoopStack
+   50 00000016 4770            BX               LR
+   51 00000018                 ENDP
+   52 00000018         
+   53 00000018         ; ------------------------------------------------------
+                       -------------
+   54 00000018         ; -- End of file
+   55 00000018         ; ------------------------------------------------------
+                       -------------  
+   56 00000018         
+   57 00000018                 ALIGN
+   58 00000018         
+   59 00000018                 END
+              00000000 
+              00000000 
+              00000000 
+              EFBEADDE 
+Command Line: --debug --xref --diag_suppress=9931,A1950W --cpu=Cortex-M0 --depe
+nd=.\build\datainit_ctboard.d -o.\build\datainit_ctboard.o -I.\RTE\_Target_1 -I
+C:\Users\belusdie\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.3\Device\Inclu
+de -IC:\Users\belusdie\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.3\Device\
+Include\m0 -IC:\Users\belusdie\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.3
+\HAL\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 53
+8" --predefine="_RTE_ SETA 1" --predefine="_RTE_ SETA 1" --list=.\build\dataini
+t_ctboard.lst RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 21 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      None
+Comment: .text unused
+LoopStack 0000000E
+
+Symbol: LoopStack
+   Definitions
+      At line 46 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      At line 49 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+Comment: LoopStack used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 27 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      At line 25 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+Comment: __main used once
+__user_setup_stackheap 00000008
+
+Symbol: __user_setup_stackheap
+   Definitions
+      At line 41 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      At line 40 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+Comment: __user_setup_stackheap used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+Stack_Mem 00000000
+
+Symbol: Stack_Mem
+   Definitions
+      At line 39 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      At line 43 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+Comment: Stack_Mem used once
+Stack_Size 00000000
+
+Symbol: Stack_Size
+   Definitions
+      At line 38 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      At line 44 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+Comment: Stack_Size used once
+__scatterload 00000000
+
+Symbol: __scatterload
+   Definitions
+      At line 24 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      At line 30 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+Comment: __scatterload used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 23 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+   Uses
+      At line 32 in file RTE/Device/CT_Board_HS14_M0/datainit_ctboard.s
+Comment: main used once
+4 symbols
+343 symbols in table
