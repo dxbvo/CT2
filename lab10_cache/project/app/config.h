@@ -19,7 +19,7 @@
 
 /* Split Up Cache:  / TAG / INDEX / OFFSET /                       */
 /* Offset size in bits */
-#define OFFSET 8
+#define OFFSET 2
 /* Index size in bits */
 #define INDEX  2
 

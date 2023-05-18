@@ -1,0 +1,18 @@
+--cpu Cortex-M0
+".\build\action_handler.o"
+".\build\event_handler.o"
+".\build\main.o"
+".\build\state_machine.o"
+".\build\timer.o"
+".\build\datainit_ctboard.o"
+".\build\startup_ctboard.o"
+".\build\system_ctboard.o"
+".\build\hal_ct_lcd.o"
+".\build\hal_fmc.o"
+".\build\hal_gpio.o"
+".\build\hal_pwr.o"
+".\build\hal_rcc.o"
+".\build\hal_timer.o"
+--ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\build\Lab.map" -o .\build\Lab.axf
