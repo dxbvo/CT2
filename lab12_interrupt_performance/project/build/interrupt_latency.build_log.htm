@@ -28,11 +28,11 @@ Project File Date:  05/19/2023
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Interrupt_latency'
 assembling datainit_ctboard.s...
-compiling hal_ct_lcd.c...
-compiling main.c...
 compiling system_ctboard.c...
-compiling hal_fmc.c...
 assembling startup_ctboard.s...
+compiling hal_ct_lcd.c...
+compiling hal_fmc.c...
+compiling main.c...
 compiling hal_gpio.c...
 compiling hal_pwr.c...
 compiling hal_rcc.c...
@@ -73,13 +73,13 @@ Package Vendor: InES
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: InES::Device:Startup:4.0.3
-      Source file:   Device/Source/datainit_ctboard.s
       Include file:  Device/Include/system_ctboard.h
-      Include file:  Device/Include/m0/platform_ctboard.h
-      Include file:  Device/Include/reg_stm32f4xx.h
       Include file:  Device/Include/reg_ctboard.h
       Source file:   Device/Source/startup_ctboard.s
+      Include file:  Device/Include/reg_stm32f4xx.h
       Source file:   Device/Source/system_ctboard.c
+      Source file:   Device/Source/datainit_ctboard.s
+      Include file:  Device/Include/m0/platform_ctboard.h
 
    * Component: InES::HAL:CT Board:LCD:3.0.3
       Include file:  Device/Include/reg_ctboard.h
@@ -87,34 +87,34 @@ Package Vendor: InES
       Include file:  HAL/Include/hal_ct_lcd.h
 
    * Component: InES::HAL:FMC:3.0.1
+      Include file:  Device/Include/reg_stm32f4xx.h
+      Include file:  HAL/Include/hal_fmc.h
       Include file:  HAL/Include/hal_common.h
       Source file:   HAL/Source/hal_fmc.c
-      Include file:  HAL/Include/hal_fmc.h
-      Include file:  Device/Include/reg_stm32f4xx.h
 
    * Component: InES::HAL:GPIO:4.0.1
-      Include file:  HAL/Include/hal_common.h
       Include file:  HAL/Include/hal_gpio.h
-      Source file:   HAL/Source/hal_gpio.c
       Include file:  Device/Include/reg_stm32f4xx.h
+      Include file:  HAL/Include/hal_common.h
+      Source file:   HAL/Source/hal_gpio.c
 
    * Component: InES::HAL:PWR:2.2.0
       Include file:  Device/Include/reg_stm32f4xx.h
-      Include file:  HAL/Include/hal_common.h
-      Source file:   HAL/Source/hal_pwr.c
       Include file:  HAL/Include/hal_pwr.h
+      Source file:   HAL/Source/hal_pwr.c
+      Include file:  HAL/Include/hal_common.h
 
    * Component: InES::HAL:RCC:4.0.1
-      Include file:  Device/Include/reg_stm32f4xx.h
       Source file:   HAL/Source/hal_rcc.c
-      Include file:  HAL/Include/hal_common.h
       Include file:  HAL/Include/hal_rcc.h
+      Include file:  HAL/Include/hal_common.h
+      Include file:  Device/Include/reg_stm32f4xx.h
 
    * Component: InES::HAL:TIMER:4.0.1
+      Source file:   HAL/Source/hal_timer.c
       Include file:  Device/Include/reg_stm32f4xx.h
       Include file:  HAL/Include/hal_common.h
       Include file:  HAL/Include/hal_timer.h
-      Source file:   HAL/Source/hal_timer.c
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

@@ -975,23 +975,23 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      1076        308         33          1         18       7928   action_handler.o
-       124         50          0          0          0        468   datainit_ctboard.o
-       492         80          0         10          4       5567   event_handler.o
-        40          4          0          0          0       2951   hal_ct_lcd.o
-       324          8          0          0          0       4049   hal_fmc.o
-       540          8          0          0          0      13277   hal_gpio.o
-         4          0          0          0          0       2353   hal_pwr.o
-       564         68          0          0          0       5295   hal_rcc.o
-       500         80          0          0          0      15658   hal_timer.o
-        22          0          0          0          0        814   main.o
-        36          8        428          0       8192        836   startup_ctboard.o
-       524        154         33          1          0       2814   state_machine.o
-       316         76          0          0          0       6858   system_ctboard.o
-       132         24          0          0          2       3561   timer.o
+      1076        308         33          1         18       7913   action_handler.o
+       124         50          0          0          0        452   datainit_ctboard.o
+       492         80          0         10          4       5552   event_handler.o
+        40          4          0          0          0       2936   hal_ct_lcd.o
+       324          8          0          0          0       4034   hal_fmc.o
+       540          8          0          0          0      13262   hal_gpio.o
+         4          0          0          0          0       2338   hal_pwr.o
+       564         68          0          0          0       5280   hal_rcc.o
+       500         80          0          0          0      15643   hal_timer.o
+        22          0          0          0          0        799   main.o
+        36          8        428          0       8192        820   startup_ctboard.o
+       524        154         33          1          0       2799   state_machine.o
+       316         76          0          0          0       6843   system_ctboard.o
+       132         24          0          0          2       3546   timer.o
 
     ----------------------------------------------------------------------
-      4696        868        496         12       8224      72429   Object Totals
+      4696        868        496         12       8224      72217   Object Totals
          0          0          0          0          0          0   (incl. Generated)
          2          0          2          0          8          0   (incl. Padding)
 
@@ -1031,8 +1031,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      5776        900        496         12       8224      72461   Grand Totals
-      5776        900        496         12       8224      72461   ELF Image Totals
+      5776        900        496         12       8224      72249   Grand Totals
+      5776        900        496         12       8224      72249   ELF Image Totals
       5776        900        496         12          0          0   ROM Totals
 
 ==============================================================================

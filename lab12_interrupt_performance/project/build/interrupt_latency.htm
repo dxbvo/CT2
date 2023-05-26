@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\build\interrupt_latency.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\build\interrupt_latency.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Fri May 19 08:41:18 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Fri May 26 08:36:37 2023
 <BR><P>
 <H3>Maximum Stack Usage =        416 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; print_results &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
+main &rArr; printResults &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
 <P>
 <H3>
 Mutually Recursive functions
@@ -486,7 +486,7 @@ Global Symbols
 
 <P><STRONG><a name="[9e]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
 <BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
-<LI>Call Chain = __rt_entry_main &rArr; main &rArr; print_results &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
+<LI>Call Chain = __rt_entry_main &rArr; main &rArr; printResults &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -510,7 +510,7 @@ Global Symbols
 
 <P><STRONG><a name="[65]"></a>main</STRONG> (Thumb, 380 bytes, Stack size 80 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
-<LI>Call Chain = main &rArr; print_results &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
+<LI>Call Chain = main &rArr; printResults &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidiv
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_timer_start
@@ -518,8 +518,8 @@ Global Symbols
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_timer_init_base
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_ct_lcd_color
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_ct_lcd_clear
-<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_results
-<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_hex_switch
+<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printResults
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readHexSwitch
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
@@ -914,14 +914,14 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = hal_ct_lcd_write
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_ct_lcd_clear
-<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_results
+<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printResults
 </UL>
 
 <P><STRONG><a name="[a6]"></a>hal_ct_lcd_color</STRONG> (Thumb, 64 bytes, Stack size 12 bytes, hal_ct_lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = hal_ct_lcd_color
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_results
+<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printResults
 </UL>
 
 <P><STRONG><a name="[a5]"></a>hal_ct_lcd_clear</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, hal_ct_lcd.o(.text))
@@ -930,7 +930,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_ct_lcd_write
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_results
+<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printResults
 </UL>
 
 <P><STRONG><a name="[11f]"></a>hal_fmc_reset</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, hal_fmc.o(.text), UNUSED)
@@ -1127,7 +1127,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_results
+<BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printResults
 </UL>
 
 <P><STRONG><a name="[aa]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, aeabi_sdiv.o(.text))
@@ -1560,15 +1560,15 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[a4]"></a>read_hex_switch</STRONG> (Thumb, 180 bytes, Stack size 12 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = read_hex_switch
+<P><STRONG><a name="[a4]"></a>readHexSwitch</STRONG> (Thumb, 180 bytes, Stack size 12 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = readHexSwitch
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ab]"></a>print_results</STRONG> (Thumb, 140 bytes, Stack size 208 bytes, main.o(.text))
+<P><STRONG><a name="[ab]"></a>printResults</STRONG> (Thumb, 140 bytes, Stack size 208 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336 + Unknown Stack Size
-<LI>Call Chain = print_results &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
+<LI>Call Chain = printResults &rArr; sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sprintf
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_ct_lcd_write

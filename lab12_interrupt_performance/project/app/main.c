@@ -1,14 +1,3 @@
-/* ----------------------------------------------------------------------------
- * --  _____       ______  _____                                              -
- * -- |_   _|     |  ____|/ ____|                                             -
- * --   | |  _ __ | |__  | (___    Institute of Embedded Systems              -
- * --   | | | '_ \|  __|  \___ \   Zurich University of                       -
- * --  _| |_| | | | |____ ____) |  Applied Sciences                           -
- * -- |_____|_| |_|______|_____/   8401 Winterthur, Switzerland               -
- * ----------------------------------------------------------------------------
- * -- $Id: main.c 4800 2019-05-09 15:30:18Z ruan $
- * ------------------------------------------------------------------------- */
-
 #include <stdint.h>
 #include <stdio.h>
 #include <reg_stm32f4xx.h>
@@ -28,9 +17,9 @@
 
 /* -- functions with module-wide scope -------------------------------------- */
 
-static void print_results(void);
-// static uint8_t convert_uint32_t_to_string(char ret_val[], uint32_t value);
-static uint16_t read_hex_switch(void);
+static void printResults(void);
+// static uint8_t convertUint32ToString(char retVal[], uint32_t value);
+static uint16_t readHexSwitch(void);
 
 /* Function prototypes */
 void TIM2_IRQHandler(void);
@@ -39,23 +28,23 @@ void TIM3_IRQHandler(void);
 
 /* -- variables with module-wide scope -------------------------------------- */
 
-static volatile hal_bool_t measurement_done = FALSE;
-static uint32_t tim3_interrupt_counter = 0;
-static uint32_t tim2_interrupt_counter = 0;
-static uint32_t min_latency = 100000;
-static uint32_t max_latency = 0;
-static uint32_t sum_latency = 0;
-static uint32_t avg_latency = 0;
-static uint32_t sum_tisr = 0; // time of interrupt service routine
-static uint32_t avg_tisr = 0; // average time of interrupt service routine
-static volatile uint32_t dummy_counter;
+static volatile hal_bool_t measurementDone = FALSE;
+static uint32_t tim3InterruptCounter = 0;
+static uint32_t tim2InterruptCounter = 0;
+static uint32_t minLatency = 100000;
+static uint32_t maxLatency = 0;
+static uint32_t sumLatency = 0;
+static uint32_t avgLatency = 0;
+static uint32_t sumTisr = 0; // time of interrupt service routine
+static uint32_t avgTisr = 0; // average time of interrupt service routine
+static volatile uint32_t dummyCounter;
 
 /* -- M A I N --------------------------------------------------------------- */
 
 int main(void)
 {
-    hal_timer_base_init_t timer_init;
-    uint16_t reload_value_tim3;
+    hal_timer_base_init_t timerInit;
+    uint16_t reloadValueTim3;
 
     while (1)
     {
@@ -63,19 +52,19 @@ int main(void)
         while (!(CT_BUTTON & 0x1))
         {
             /* dummy read to display the HEX switch position on SEG7 */
-            read_hex_switch();
+            readHexSwitch();
         }
 
         /* reset statistics */
-        measurement_done = FALSE;
-        tim3_interrupt_counter = 0;
-        tim2_interrupt_counter = 0;
-        min_latency = 100000;
-        max_latency = 0;
-        sum_latency = 0;
-        avg_latency = 0;
-        sum_tisr = 0;
-        avg_tisr = 0;
+        measurementDone = FALSE;
+        tim3InterruptCounter = 0;
+        tim2InterruptCounter = 0;
+        minLatency = 100000;
+        maxLatency = 0;
+        sumLatency = 0;
+        avgLatency = 0;
+        sumTisr = 0;
+        avgTisr = 0;
 
         /* init display, Use RED background while test is running */
         hal_ct_lcd_clear();
@@ -88,27 +77,27 @@ int main(void)
         TIM2_ENABLE();
         TIM2_RESET();
 
-        timer_init.mode = HAL_TIMER_MODE_UP;
-        timer_init.run_mode = HAL_TIMER_RUN_CONTINOUS;
-        timer_init.prescaler = 0u;
-        timer_init.count = RELOAD_VALUE_TIM2; //counter overflow every 1ms
+        timerInit.mode = HAL_TIMER_MODE_UP;
+        timerInit.run_mode = HAL_TIMER_RUN_CONTINOUS;
+        timerInit.prescaler = 0u;
+        timerInit.count = RELOAD_VALUE_TIM2; //counter overflow every 1ms
 
-        hal_timer_init_base(TIM2, timer_init);
+        hal_timer_init_base(TIM2, timerInit);
         hal_timer_irq_set(TIM2, HAL_TIMER_IRQ_UE, ENABLE);
 
         /* read and display the amount of load selected for timer 3*/
-        reload_value_tim3 = read_hex_switch();
+        reloadValueTim3 = readHexSwitch();
 
         /* init timer3 with a clock source frequency of 84MHz */
         TIM3_ENABLE();
         TIM3_RESET();
 
-        timer_init.mode = HAL_TIMER_MODE_UP;
-        timer_init.run_mode = HAL_TIMER_RUN_CONTINOUS;
-        timer_init.prescaler = 0u;
-        timer_init.count = reload_value_tim3; // from hex switch
+        timerInit.mode = HAL_TIMER_MODE_UP;
+        timerInit.run_mode = HAL_TIMER_RUN_CONTINOUS;
+        timerInit.prescaler = 0u;
+        timerInit.count = reloadValueTim3; // from hex switch
 
-        hal_timer_init_base(TIM3, timer_init);
+        hal_timer_init_base(TIM3, timerInit);
         hal_timer_irq_set(TIM3, HAL_TIMER_IRQ_UE, ENABLE);
 
         /* set default interrupt priorities:
@@ -126,32 +115,34 @@ int main(void)
          * Priorities
          *  - The lower a priority level, the greater the priority
          *  - 4-bit priority level in bits [7:4] of NVIC->IP[] register,
-         *    i.e. 0x00 � 0xF0 
+         *    i.e. 0x00 � 0xF0
          */
 
         /// STUDENTS: To be programmed
-        NVIC->IP[IRQNUM_TIM3] = (CT_DIPSW->BYTE.S7_0 & 0xF0) >> 4;
-        NVIC->IP[IRQNUM_TIM2] = (CT_DIPSW->BYTE.S15_8 & 0xF0) >> 4;
+				
+				NVIC->IP[IRQNUM_TIM3] = CT_DIPSW->BYTE.S7_0 & 0xF0;
+        NVIC->IP[IRQNUM_TIM2] = CT_DIPSW->BYTE.S15_8 & 0xF0;
+				
         /// END: To be programmed
 
         /* start timer2 */
         hal_timer_start(TIM2);
 
         /* if there is load --> start timer 3 */
-        if (reload_value_tim3 != 0)
+        if (reloadValueTim3 != 0)
         {
             hal_timer_start(TIM3);
         }
 
         /* wait for measurement to finish */
-        while (!measurement_done)
+        while (!measurementDone)
         {
         }
 
         /* print out measurement */
-        avg_latency = sum_latency / tim2_interrupt_counter;
-        avg_tisr = sum_tisr / tim2_interrupt_counter;
-        print_results();
+        avgLatency = sumLatency / tim2InterruptCounter;
+        avgTisr = sumTisr / tim2InterruptCounter;
+        printResults();
     }
 }
 
@@ -161,30 +152,30 @@ int main(void)
 void TIM2_IRQHandler(void)
 {
     /// STUDENTS: To be programmed
-    uint16_t timer_val = (uint16_t)TIM2->CNT;
+    uint16_t timerVal = (uint16_t)TIM2->CNT;
     hal_timer_irq_clear(TIM2, HAL_TIMER_IRQ_UE);
     // increase interrupt counter
-    tim2_interrupt_counter++;
+    tim2InterruptCounter++;
 
     // update latency variables
-    if (timer_val < min_latency)
+    if (timerVal < minLatency)
     {
-        min_latency = timer_val;
+        minLatency = timerVal;
     }
-    if (timer_val > max_latency)
+    if (timerVal > maxLatency)
     {
-        max_latency = timer_val;
+        maxLatency = timerVal;
     }
-    sum_latency += timer_val;
+    sumLatency += timerVal;
 
     // stop timers if reading done.
-    if (tim2_interrupt_counter == NUMBER_OF_TIMER_2_INTERRUPTS)
+    if (tim2InterruptCounter == NUMBER_OF_TIMER_2_INTERRUPTS)
     {
         hal_timer_stop(TIM2);
         hal_timer_stop(TIM3);
-        measurement_done = TRUE;
+        measurementDone = TRUE;
     }
-    sum_tisr += TIM2->CNT - timer_val;
+    sumTisr += TIM2->CNT - timerVal;
     /// END: To be programmed
 }
 
@@ -194,10 +185,10 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
     hal_timer_irq_clear(TIM3, HAL_TIMER_IRQ_UE);
-    tim3_interrupt_counter++;
+    tim3InterruptCounter++;
 
     /* add a little bit of delay in the ISR */
-    for (dummy_counter = 0; dummy_counter < 3; dummy_counter++)
+    for (dummyCounter = 0; dummyCounter < 3; dummyCounter++)
     {
     }
 }
@@ -208,25 +199,25 @@ void TIM3_IRQHandler(void)
  * \brief  Prints the minimal, maximal and average interrupt latency and the
  *         number of occurred timer3 interrupts to the display
  */
-static void print_results(void) {
+static void printResults(void) {
 
-    char label_min[] = "min ";
-    char label_max[] = "max ";
-    char label_avg[] = "avg ";
-    char label_load[] = "load ";
+    char labelMin[] = "min ";
+    char labelMax[] = "max ";
+    char labelAvg[] = "avg ";
+    char labelLoad[] = "load ";
 
-    // char ret_val[STRING_LENGTH_FOR_32BIT]; // unused
+    // char retVal[STRING_LENGTH_FOR_32BIT]; // unused
     // uint8_t length = 0; // unused
     uint8_t pos = 0;
 		
-		char lcdtext[100];  // Move the declaration to the beginning
+    char lcdText[100];  // Move the declaration to the beginning
 
     // set lcd backlight green
     hal_ct_lcd_color(HAL_LCD_RED, 0u);
     hal_ct_lcd_color(HAL_LCD_GREEN, 0xffff);
 
     // write label "min"
-    hal_ct_lcd_write(pos, label_min);
+    hal_ct_lcd_write(pos, labelMin);
 
     /* Add writing of min, max and average values to LCD,
      * include the appropriate labels.
@@ -237,30 +228,30 @@ static void print_results(void) {
 
     /// STUDENTS: To be programmed
     hal_ct_lcd_clear();
-    sprintf(lcdtext, "%s%2i %s%3i %3i  %s%2i %s%i",
-            label_min,
-            min_latency,
-            label_max,
-            max_latency,
-            avg_tisr,
-            label_avg,
-            avg_latency,
-            label_load,
-            tim3_interrupt_counter);
-    hal_ct_lcd_write(0, lcdtext);
+    sprintf(lcdText, "%s%2i %s%3i %3i  %s%2i %s%i",
+            labelMin,
+            minLatency,
+            labelMax,
+            maxLatency,
+            avgTisr,
+            labelAvg,
+            avgLatency,
+            labelLoad,
+            tim3InterruptCounter);
+    hal_ct_lcd_write(0, lcdText);
     /// END: To be programmed
 }
 
 /**
  * \brief  Converts an uint32_t value into a string.
- * \param  ret_val: Pointer to the array where the result of the conversion will
+ * \param  retVal: Pointer to the array where the result of the conversion will
  *                  be stored. The array must be large enough to hold the string
  * \param  value:   The value to be converted
  * \return The functions returns a negative value in the case of an error.
  *         Otherwise, the number of characters written is returned.
  */
-//static uint8_t convert_uint32_t_to_string(char ret_val[], uint32_t value) {
-//    return (uint8_t)snprintf(ret_val, STRING_LENGTH_FOR_32BIT, "%d", value);
+//static uint8_t convert_uint32_t_to_string(char retVal[], uint32_t value) {
+//    return (uint8_t)snprintf(retVal, STRING_LENGTH_FOR_32BIT, "%d", value);
 //}
 
 /**
@@ -268,11 +259,11 @@ static void print_results(void) {
  *         on the 7-segment: none / 10 kHz / 100 kHz / 1000 kHz
  * \return The appropriate reload value for the load on timer3
  */
-static uint16_t read_hex_switch(void) {
-    uint8_t hex_sw_pos = CT_HEXSW & 0x0F;
-    uint16_t ret_value;
+static uint16_t readHexSwitch(void) {
+    uint8_t hexSwPos = CT_HEXSW & 0x0F;
+    uint16_t retValue;
 
-    switch (hex_sw_pos)
+    switch (hexSwPos)
     {
     case 1:
     case 5:
@@ -280,7 +271,7 @@ static uint16_t read_hex_switch(void) {
     case 13:
         /* 10 kHz */
         CT_SEG7->RAW.WORD = (uint32_t)0xFFFFF9C0; // 10
-        ret_value = (uint16_t)8400;
+        retValue = (uint16_t)8400;
         break;
     case 2:
     case 6:
@@ -288,7 +279,7 @@ static uint16_t read_hex_switch(void) {
     case 14:
         /* 100 kHz */
         CT_SEG7->RAW.WORD = (uint32_t)0xFFF9C0C0; // 100
-        ret_value = (uint16_t)840;
+        retValue = (uint16_t)840;
         break;
     case 3:
     case 7:
@@ -296,13 +287,12 @@ static uint16_t read_hex_switch(void) {
     case 15:
         /* 1000 kHz */
         CT_SEG7->RAW.WORD = (uint32_t)0xF9C0C0C0; // 1000
-        ret_value = (uint16_t)84;
+        retValue = (uint16_t)84;
         break;
     default:
         /* no load */
         CT_SEG7->RAW.WORD = (uint32_t)0xFFFFFFC0; // 0 --> no load
-        ret_value = (uint16_t)0;
+        retValue = (uint16_t)0;
     }
-    return ret_value;
+    return retValue;
 }
-
