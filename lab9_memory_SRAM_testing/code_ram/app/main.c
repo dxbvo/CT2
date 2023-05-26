@@ -59,8 +59,6 @@ int main(void) {
     uint8_t loop = 0;
 	
 		uint8_t *base_addr = (uint8_t *) SRAM_BASE_ADDR;
-
-
 	
 //	for (int i = 1; i < NR_OF_DATA_LINES; i++) {
 //		
@@ -101,7 +99,7 @@ int main(void) {
         
         CT_LED->BYTE.LED7_0 |= read_value ^ test_value;
         
-        test_value = test_value<<1;
+        test_value = (uint8_t)(test_value<<1);
     }
 
     /// END: To be programmed
@@ -192,10 +190,11 @@ int main(void) {
      *     In case of error, write address with wrong data to 7-segment and
      *     wait for press on button T0.
      */
+		 
     /// STUDENTS: To be programmed
-		for(uint16_t adr = 0;adr < 1<<NR_OF_ADDRESS_LINES; adr++) {
-		
-			*(base_addr + adr) = (adr + 1) % 0x100;
+
+		for(uint16_t adr = 0;adr < 1<<NR_OF_ADDRESS_LINES; adr++) {		
+			*(base_addr + adr) = (uint8_t)((adr + 1) % 0x100);
 		}
 		
 		CT_LED->BYTE.LED15_8 = 0x3F;
@@ -204,7 +203,7 @@ int main(void) {
 			if (*(base_addr + adr) != (adr + 1) % 0x100){
 				show_device_error(adr);
 			}
-			*(base_addr + adr) = ~((adr + 1) % 0x100);
+			*(base_addr + adr) = (uint8_t)(~((adr + 1) % 0x100));
 		}
 		
 		for(uint16_t adr = 0;adr < 1<<NR_OF_ADDRESS_LINES; adr++) {
